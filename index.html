@@ -12,23 +12,34 @@
         background-image: url(fondo\ de\ pantalla.png);
       
       }
+  button {
+  color: #ffffff !important;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0.5em 1.2em;
+  background: rgba(0,0,0,0);
+  border: 4px solid;
+  border-color: #fbfbfb;
+  transition: all 1s ease;
+  position: relative;
+      }
 
       #result {
         margin-top: 20px;
         font-weight: bold;
-      }
+            }
 
       .carta-img {
         max-width: 350px;
-        height: auto;
+        height: auto;        
       }
 
       /* Estilo para mostrar las cartas en línea */
       #result p {
         display: inline-block;
-        
         margin: 0 10px;
         text-align: center;
+        font-size:x-large;
       }
     </style>
   </head>
@@ -433,7 +444,7 @@
           ] ;
 
              // Función para realizar la tirada
-             function realizarTirada() {
+            function realizarTirada() {
             // Seleccionar tres cartas distintas al azar
             const cartasSeleccionadas = seleccionarCartasAleatorias(3);
 
