@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tirada de Tarot</title>
+    <style>
+      body {
+        text-align: center;
+        color: aliceblue;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        background-image: url(fondo\ de\ pantalla.png);
+      
+      }
+
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      .carta-img {
+        max-width: 350px;
+        height: auto;
+      }
+
+      /* Estilo para mostrar las cartas en línea */
+      #result p {
+        display: inline-block;
+        
+        margin: 0 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tirada de Tarot</h1>
+    <button onclick="realizarTirada()">Realizar Tirada</button>
+    <div id="result"></div>
+
+    <script>
+      // Definir las cartas del tarot y sus interpretaciones
+      const cartasTarot = [
+        {
+          nombre: "El Loco",
+          interpretacion: "La necesidad de tomar riesgos calculados.",
+          imagen: "el loco.jpg",
+        },
+        {
+          nombre: "El Mago",
+          interpretacion: " Empoderamiento y habilidades para manifestar.",
+          imagen: "el mago.jpg",
+        },
+        {
+          nombre: "La Sacerdotisa",
+          interpretacion: " Intuición, misterio y conexión espiritual.",
+          imagen: "la sacerdotisa.jpg",
+        },
+        {
+          nombre: "La Emperatriz",
+          interpretacion: "Fertilidad, creatividad y abundancia.",
+          imagen: "la emperatriz.jpg",
+        },
+        {
+          nombre: "El Emperador",
+          interpretacion: " Autoridad, estructura y liderazgo.",
+          imagen: "el emperador.jpg",
+        },
+        {
+          nombre: "El Sumo Sacerdote",
+          interpretacion: "Sabiduría espiritual y guía moral.",
+          imagen: "el sumo sacerdote.jpg",
+        },
+        {
+          nombre: "Los Enamorados",
+          interpretacion: "Decisiones emocionales y relaciones.",
+          imagen: "los enamorados.jpg",
+        },
+        {
+          nombre: "El Carro",
+          interpretacion: "Control, superación y avance.",
+          imagen: "los enamorados.jpg",
+        },
+        {
+          nombre: "La Justicia",
+          interpretacion: "Equilibrio, imparcialidad y decisiones justas.",
+          imagen: "la justicia.jpg",
+        },
+        {
+          nombre: "El Ermitaño",
+          interpretacion: "Reflexión, búsqueda interna y sabiduría.",
+          imagen: "el ermitaño.jpg",
+        },
+        {
+          nombre: "La Rueda de la fortuna",
+          interpretacion: "Cambio, ciclos y destino.",
+          imagen: "la rueda de la fortuna.jpg",
+        },
+        {
+          nombre: "La Fuerza",
+          interpretacion: "Fuerza interior, paciencia y dominio de uno mismo.",
+          imagen: "la fuerza.jpg",
+        },
+        {
+          nombre: "El Colgado",
+          interpretacion: "Sacrificio, perspectiva y soltar.",
+          imagen: "el colgado.jpg",
+        },
+        {
+          nombre: "La Muerte",
+          interpretacion: "Transformación, cambio profundo y renovación.",
+          imagen: "la muerte.jpg",
+        },
+        {
+          nombre: "La Templanza",
+          interpretacion: "Equilibrio, armonía y moderación.",
+          imagen: "la templanza.jpg",
+        },
+        {
+          nombre: "El Diablo",
+          interpretacion: "Tentaciones, deseos materiales y liberación.",
+          imagen: "el diablo.jpg",
+        },
+        {
+          nombre: "La Torre",
+          interpretacion:
+            "Cambio abrupto, revelaciones y liberación de estructuras.",
+          imagen: "la torre.jpg",
+        },
+        {
+          nombre: "La Estrella",
+          interpretacion: "Esperanza, inspiración y conexión espiritual.",
+          imagen: "la estrella.jpg",
+        },
+        {
+          nombre: "La Luna",
+          interpretacion: "Intuición, ilusiones y aspectos ocultos.",
+          imagen: "la luna.jpg",
+        },
+        {
+          nombre: "El Sol",
+          interpretacion: "Alegría, claridad y éxito.",
+          imagen: "el sol.jpg",
+        },
+        {
+          nombre: "El Juicio",
+          interpretacion: "Renacimiento, evaluación y autoexamen.",
+          imagen: "el juicio.jpg",
+        },
+        {
+          nombre: "El Mundo",
+          interpretacion: "Logro, completitud y realización.",
+          imagen: "el mundo.jpg",
+        },
+        
+        {
+          nombre: "As de Copas",
+          interpretacion: "Nuevo amor o comienzo emocional.",
+          imagen: "as de copas.jpg",
+        },
+        {
+          nombre: "Dos de Copas",
+          interpretacion: "Uniones y asociaciones.",
+          imagen: "2 de copas.jpg",
+        },
+        {
+          nombre: "Tres de Copas.",
+          interpretacion: "Celebración y alegría compartida.",
+          imagen: "3 de copas.jpg",
+        },
+        {
+          nombre: "Cuatro de Copas",
+          interpretacion: "Reflexión y evaluación emocional.",
+          imagen: "4 de copas.jpg",
+        },
+        {
+          nombre: "Cinco de Copas",
+          interpretacion: "Pérdida y superación emocional.",
+          imagen: "5 de copas.jpg",
+        },
+        {
+          nombre: "Seis de Copas",
+          interpretacion: "Nostalgia y conexión con el pasado.",
+          imagen: "6 de copas.jpg",
+        },
+        {
+          nombre: "Siete de Copas",
+          interpretacion: "Opciones y decisiones ilusorias.",
+          imagen: "7 de copas.jpg",
+        },
+        {
+          nombre: "Ocho de Copas",
+          interpretacion: "Búsqueda de significado emocional.",
+          imagen: "8 de copas.jpg",
+        },
+        {
+          nombre: "Nueve de Copas",
+          interpretacion: "Satisfacción emocional y deseos cumplidos.",
+          imagen: "9 de copas.jpg",
+        },
+        {
+          nombre: "Diez de Copas",
+          interpretacion: "Felicidad familiar y plenitud emocional.",
+          imagen: "10 de copas.jpg",
+        },
+        {
+          nombre: "Sota de Copas",
+          interpretacion: "Noticias emocionales, intuición y creatividad.",
+          imagen: "sota de copas.jpg",
+        },
+        {
+          nombre: "Caballero de Copas",
+          interpretacion: "Mensajero emocional, romántico y soñador.",
+          imagen: "caballos de copas.jpg",
+        },
+        {
+          nombre: "Reina de Copas",
+          interpretacion: "Intuitiva, afectuosa y comprensiva.",
+          imagen: "reina de copas.jpg",
+        },
+        {
+          nombre: "Rey de Copas",
+          interpretacion: "Emocional, compasivo y líder espiritual.",
+          imagen: "rey de copas.jpg",
+        },
+        {
+          nombre: "As de Oros",
+          interpretacion: "Nuevo comienzo material.",
+          imagen: "as de oros.jpg",
+        },
+        {
+          nombre: "Dos de Oros",
+          interpretacion: "Equilibrio y adaptabilidad financiera.",
+          imagen: "2 de oros.jpg",
+        },
+        {
+          nombre: "Tres de Oros.",
+          interpretacion: "Colaboración y éxito en equipo.",
+          imagen: "3 de oros.jpg",
+        },
+        {
+          nombre: "Cuatro de Oros",
+          interpretacion: "Seguridad material y posesividad.",
+          imagen: "4 de oros.jpg",
+        },
+        {
+          nombre: "Cinco de Oros",
+          interpretacion: "Pérdida material y superación.",
+          imagen: "5 de oros.jpg",
+        },
+        {
+          nombre: "Seis de Oros",
+          interpretacion: "Generosidad y ayuda mutua.",
+          imagen: "6 de oros.jpg",
+        },
+        {
+          nombre: "Siete de Oros",
+          interpretacion: "Evaluación y paciencia.",
+          imagen: "7 de oros.jpg",
+        },
+        {
+          nombre: "Ocho de Oros",
+          interpretacion: "Perfección y maestría.",
+          imagen: "8 de oros.jpg",
+        },
+        {
+          nombre: "Nueve de Oros",
+          interpretacion: "Independencia material y seguridad.",
+          imagen: "9 de oros.jpg",
+        },
+        {
+          nombre: "Diez de Oros",
+          interpretacion: "Riqueza familiar y prosperidad.",
+          imagen: "10 de oros.jpg",
+        },
+        {
+          nombre: "Sota de Oros",
+          interpretacion: "Noticias materiales, enfoque y aprendizaje práctico.",
+          imagen: "sota de oros.jpg",
+        },
+        {
+          nombre: "Caballero de Oros",
+          interpretacion: "Mensajero material, trabajador y metódico.",
+          imagen: "caballos de oros.jpg",
+        },
+        {
+          nombre: "Reina de Oros",
+          interpretacion: "Práctica, generosa y centrada en la familia.",
+          imagen: "reina de oros.jpg",
+        },
+        {
+          nombre: "Rey de Oros",
+          interpretacion: "Líder material, próspero y confiable.",
+          imagen: "rey de oros.jpg",},
+          {
+          nombre: "As de Espadas",
+          interpretacion: "Claridad mental y nuevos comienzos.",
+          imagen: "as de espadas.jpg",
+        },
+        {
+          nombre: "Dos de Espadas",
+          interpretacion: "Decisiones difíciles y equilibrio.",
+          imagen: "2 de espadas.jpg",
+        },
+        {
+          nombre: "Tres de Espadas.",
+          interpretacion: "Dolor emocional y sanación.",
+          imagen: "3 de espadas.jpg",
+        },
+        {
+          nombre: "Cuatro de Espadas",
+          interpretacion: "Descanso y recuperación.",
+          imagen: "4 de espadas.jpg",
+        },
+        {
+          nombre: "Cinco de Espadas",
+          interpretacion: "Conflictos y superación.",
+          imagen: "5 de espadas.jpg",
+        },
+        {
+          nombre: "Seis de Espadas",
+          interpretacion: "Transición y superación de dificultades.",
+          imagen: "6 de espadas.jpg",
+        },
+        {
+          nombre: "Siete de Espadas",
+          interpretacion: "Engaño y estrategia.",
+          imagen: "7 de espadas.jpg",
+        },
+        {
+          nombre: "Ocho de Espadas",
+          interpretacion: "Limitaciones autoimpuestas.",
+          imagen: "8 de espadas.jpg",
+        },
+        {
+          nombre: "Nueve de Espadas",
+          interpretacion: "Ansiedad y preocupación.",
+          imagen: "9 de espadas.jpg",
+        },
+        {
+          nombre: "Diez de Espadas",
+          interpretacion: "Fin de una etapa y transformación.",
+          imagen: "10 de espadas.jpg",
+        },
+        {
+          nombre: "Sota de Espadas",
+          interpretacion: "Noticias intelectuales, curiosidad y aprendizaje.",
+          imagen: "sota de espadas.jpg",
+        },
+        {
+          nombre: "Caballero de Espadas",
+          interpretacion: "Mensajero intelectual, valiente y resuelto.",
+          imagen: "caballos de espadas.jpg",
+        },
+        {
+          nombre: "Reina de Espadas",
+          interpretacion: "Perspicaz, lógica y comunicativa.",
+          imagen: "reina de espadas.jpg",
+        },
+        {
+          nombre: "Rey de Espadas",
+          interpretacion: "Líder intelectual, lógico y analítico.",
+          imagen: "rey de espadas.jpg",},
+          {
+          nombre: "As de Bastos",
+          interpretacion: "Inspiración y nuevos proyectos.",
+          imagen: "as de palos.jpg",
+        },
+        {
+          nombre: "Dos de Bastos",
+          interpretacion: "Planificación y decisión.",
+          imagen: "2 de palos.jpg",
+        },
+        {
+          nombre: "Tres de Bastos.",
+          interpretacion: "Expansión y exploración.",
+          imagen: "3 de palos.jpg",
+        },
+        {
+          nombre: "Cuatro de Bastos",
+          interpretacion: "Celebración y logros.",
+          imagen: "4 de palos.jpg",
+        },
+        {
+          nombre: "Cinco de Bastos",
+          interpretacion: "Competencia y conflictos menores.",
+          imagen: "5 de palos.jpg",
+        },
+        {
+          nombre: "Seis de Bastos",
+          interpretacion: "Reconocimiento y éxito público.",
+          imagen: "6 de palos.jpg",
+        },
+        {
+          nombre: "Siete de Bastos",
+          interpretacion: "Defensa y resistencia.",
+          imagen: "7 de palos.jpg",
+        },
+        {
+          nombre: "Ocho de Bastos",
+          interpretacion: "Movimiento rápido y progreso.",
+          imagen: "8 de palos.jpg",
+        },
+        {
+          nombre: "Nueve de Bastos",
+          interpretacion: "Resistencia y perseverancia.",
+          imagen: "9 de palos.jpg",
+        },
+        {
+          nombre: "Diez de Bastos",
+          interpretacion: "Responsabilidades y carga.",
+          imagen: "10 de palos.jpg",
+        },
+        {
+          nombre: "Sota de Bastos",
+          interpretacion: "Noticias creativas, entusiasmo y nuevos comienzos.",
+          imagen: "sota de palos.jpg",
+        },
+        {
+          nombre: "Caballero de Bastos",
+          interpretacion: "Mensajero activo, aventurero y valiente.",
+          imagen: "caballos de palos.jpg",
+        },
+        {
+          nombre: "Reina de Bastos",
+          interpretacion: "Enérgica, creativa y apasionada.",
+          imagen: "reina de palos.jpg",
+        },
+        {
+          nombre: "Rey de Bastos",
+          interpretacion: "Líder inspirador, carismático y emprendedor.",
+          imagen: "rey de palos.jpg",}
+
+          ] ;
+
+             // Función para realizar la tirada
+             function realizarTirada() {
+            // Seleccionar tres cartas distintas al azar
+            const cartasSeleccionadas = seleccionarCartasAleatorias(3);
+
+
+
+                    // Mostrar el resultado con interpretaciones e imágenes
+                    const resultado = cartasSeleccionadas.map(carta => `
+                <p>${carta.nombre}<br>${carta.interpretacion}<br><img class="carta-img" src="${carta.imagen}" alt="${carta.nombre}"></p>
+            `).join('');
+
+            document.getElementById('result').innerHTML = resultado;
+        }
+
+        // Función para seleccionar cartas aleatorias sin repetición
+        function seleccionarCartasAleatorias(cantidad) {
+            const cartasAleatorias = [];
+            const cartasDisponibles = [...cartasTarot];
+
+            for (let i = 0; i < cantidad; i++) {
+                const indice = Math.floor(Math.random() * cartasDisponibles.length);
+                const cartaSeleccionada = cartasDisponibles.splice(indice, 1)[0];
+                cartasAleatorias.push(cartaSeleccionada);
+            }
+
+            return cartasAleatorias;
+        }
+
+    </script>
+  </body>
+</html>
